@@ -14,6 +14,8 @@ struct UiState {
     w: f32,
 }
 
+
+
 // A dummy struct used for Query-ing the cube entity, for altering its transform.
 #[derive(Component)]
 struct RotateFlag;
@@ -100,6 +102,7 @@ fn transform_ui(
     // Iterate over all cubes. In this case, we only have one, but this boilerplate is still considered best practice
     for (mut transform, _cube) in &mut cubes {
         // The actual quaternion transform occurs here
-        transform.rotation = Quat::from_xyzw(ui_state.x, ui_state.y, ui_state.z, ui_state.w);
+        let unnormalized_quat = Quat::from_xyzw(ui_state.x, ui_state.y, ui_state.z, ui_state.w);
+        transform.rotation = unnormalized_quat.normalize();
     }
 }
